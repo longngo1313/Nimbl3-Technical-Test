@@ -3,13 +3,11 @@ package com.example.longnv.nimbl3_test.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 /**
- * Created by Vu Long on 8/24/2018.
+ * Created by Vu Long on 8/26/2018.
  * nguyenvulong2002@gmail.com
  */
-public class IncludedData {
+public class Data {
 
     @SerializedName("id")
     @Expose
@@ -19,7 +17,10 @@ public class IncludedData {
     private String type;
     @SerializedName("attributes")
     @Expose
-    private IncludeDataAttributes includeDataAttributes;
+    private Travelogue travelogue;
+    @SerializedName("relationships")
+    @Expose
+    private Relationships relationships;
 
     public String getId() {
         return id;
@@ -37,11 +38,19 @@ public class IncludedData {
         this.type = type;
     }
 
-    public IncludeDataAttributes getIncludeDataAttributes() {
-        return includeDataAttributes;
+    public Travelogue getTravelogue() {
+        return travelogue;
     }
 
-    public void setIncludeDataAttributes(IncludeDataAttributes includeDataAttributes) {
-        this.includeDataAttributes = includeDataAttributes;
+    public void setTravelogue(Travelogue travelogue) {
+        this.travelogue = travelogue;
+    }
+
+    public Relationships getRelationships() {
+        return relationships;
+    }
+
+    public void setRelationships(Relationships relationships) {
+        this.relationships = relationships;
     }
 }

@@ -13,13 +13,26 @@ public class DataResponse {
 
     @SerializedName("included")
     @Expose
-    private List<IncludedData> items = null;
+    private List<IncludedData> includedData = null;
 
-    public List<IncludedData> getItems() {
-        return items;
+    @SerializedName("data")
+    @Expose
+    private List<Data> data = null;
+
+
+    public List<IncludedData> getIncludedData() {
+        return includedData;
     }
 
-    public void setItems(List<IncludedData> items) {
-        this.items = items;
+    public void setIncludedData(List<IncludedData> includedData) {
+        this.includedData = includedData;
+    }
+
+    public List<Data> getData() {
+        return data;
+    }
+
+    public void setData(List<Data> data) {
+        this.data = data;
     }
 }

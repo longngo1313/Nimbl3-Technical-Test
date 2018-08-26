@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.longnv.nimbl3_test.api.ApiService;
 import com.example.longnv.nimbl3_test.api.ApiUtils;
+import com.example.longnv.nimbl3_test.models.Data;
 import com.example.longnv.nimbl3_test.models.DataResponse;
 import com.example.longnv.nimbl3_test.models.IncludedData;
 import com.example.longnv.nimbl3_test.models.Places;
@@ -27,18 +28,24 @@ public class MainScreenActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<DataResponse> call, Response<DataResponse> response) {
                 if(response.isSuccessful()) {
-                    for(IncludedData data : response.body().getItems()){
+                    for(IncludedData data : response.body().getIncludedData()){
+                        Log.d("MainActivity", "IncludedData getType " + data.getType());
+                        Log.d("MainActivity", "IncludedData getCity " + data.getIncludeDataAttributes().getName());
+
+                    }
+
+                    for(Data data : response.body().getData()){
                         Log.d("MainActivity", "Data getType " + data.getType());
-                        Log.d("MainActivity", "Data getCity " + data.getAttributes().getCity());
-                        Log.d("MainActivity", "Data getName " + data.getAttributes().getName());
-                        Log.d("MainActivity", "Data getCountry " + data.getAttributes().getCountry());
-                        Log.d("MainActivity", "Data getCoverImage " + data.getAttributes().getCoverImage());
+                        Log.d("MainActivity", "Data getCoverImageUrl " + data.getTravelogue().getCoverImageUrl());
+                        Log.d("MainActivity", "Data getStartDate " + data.getTravelogue().getStartDate());
+                        Log.d("MainActivity", "Data getStartDate " + data.getRelationships().getDestination().getId());
+                        Log.d("MainActivity", "Data getStartDate " + data.getRelationships().getUser().getId());
                     }
                 }else {
                     int statusCode  = response.code();
                     // handle request errors depending on status code
                 }
-                Log.d("MainActivity", "posts loaded from API ------------------SIZE---------"  + response.body().getItems().size() );
+                Log.d("MainActivity", "posts loaded from API ------------------SIZE---------"  + response.body().getIncludedData().size() );
             }
 
             @Override
