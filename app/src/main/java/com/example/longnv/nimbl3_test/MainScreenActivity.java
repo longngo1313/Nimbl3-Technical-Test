@@ -1,58 +1,82 @@
 package com.example.longnv.nimbl3_test;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.util.Log;
 
+import com.example.longnv.nimbl3_test.adapter.TravellogueListAdapter;
 import com.example.longnv.nimbl3_test.api.ApiService;
 import com.example.longnv.nimbl3_test.api.ApiUtils;
+import com.example.longnv.nimbl3_test.base.BaseActivity;
 import com.example.longnv.nimbl3_test.models.Data;
 import com.example.longnv.nimbl3_test.models.DataResponse;
 import com.example.longnv.nimbl3_test.models.IncludedData;
 import com.example.longnv.nimbl3_test.models.Places;
+import com.example.longnv.nimbl3_test.models.Travelogue;
+import com.example.longnv.nimbl3_test.presenters.MainScreenPresenter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainScreenActivity extends AppCompatActivity {
+public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
 
-    private ApiService mService;
+    private RecyclerView mListTravelLogue;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mService = ApiUtils.getSOService();
+    protected int setViewLayout() {
+        return R.layout.activity_main_screen;
+    }
 
-        mService.getAnswers().enqueue(new Callback<DataResponse>() {
-            @Override
-            public void onResponse(Call<DataResponse> call, Response<DataResponse> response) {
-                if(response.isSuccessful()) {
-                    for(IncludedData data : response.body().getIncludedData()){
-                        Log.d("MainActivity", "IncludedData getType " + data.getType());
-                        Log.d("MainActivity", "IncludedData getCity " + data.getIncludeDataAttributes().getName());
+    @Override
+    protected void onSetupLayout() {
+        mListTravelLogue = findViewById(R.id.ls_travelogue);
 
-                    }
+        getPresenter().getAllData();
+    }
 
-                    for(Data data : response.body().getData()){
-                        Log.d("MainActivity", "Data getType " + data.getType());
-                        Log.d("MainActivity", "Data getCoverImageUrl " + data.getTravelogue().getCoverImageUrl());
-                        Log.d("MainActivity", "Data getStartDate " + data.getTravelogue().getStartDate());
-                        Log.d("MainActivity", "Data getStartDate " + data.getRelationships().getDestination().getId());
-                        Log.d("MainActivity", "Data getStartDate " + data.getRelationships().getUser().getId());
-                    }
-                }else {
-                    int statusCode  = response.code();
-                    // handle request errors depending on status code
-                }
-                Log.d("MainActivity", "posts loaded from API ------------------SIZE---------"  + response.body().getIncludedData().size() );
-            }
+    @NonNull
+    @Override
+    protected MainScreenPresenter setPresenter() {
+        return new MainScreenPresenter(getApplicationContext());
+    }
 
-            @Override
-            public void onFailure(Call<DataResponse> call, Throwable t) {
-                Log.d("MainActivity", "error loading from API");
-            }
-        });
-        setContentView(R.layout.activity_main_screen);
+    @Override
+    public void onCallBackPresenter(String key, Object data) {
+
+
+        ArrayList<Travelogue> travelogueList = (ArrayList<Travelogue>) data;
+
+        Log.d("15081991 ", "travelogueList   " + travelogueList.size());
+        Log.d("15081991 ", "travelogueList  getCoverImageUrl " + travelogueList.get(0).getCoverImageUrl());
+        Log.d("15081991 ", "travelogueList  Main thread " + Thread.currentThread().getName());
+
+        TravellogueListAdapter questionListAdapter = new TravellogueListAdapter(travelogueList, this);
+
+        mListTravelLogue.setAdapter(questionListAdapter);
+
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        mListTravelLogue.setLayoutManager(layoutManager);
+
+//        SnapHelper helper = new LinearSnapHelper();
+//        helper.attachToRecyclerView(mListTravelLogue);
+        mListTravelLogue.setItemAnimator(new DefaultItemAnimator());
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mListTravelLogue.getContext(),
+                layoutManager.getOrientation());
+        mListTravelLogue.addItemDecoration(dividerItemDecoration);
+
     }
 }

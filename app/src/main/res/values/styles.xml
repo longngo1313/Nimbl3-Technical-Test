@@ -8,4 +8,25 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ChillinAtBali"
+        parent="@style/android:Widget.TextView">
+        <item name="android:fontFamily">Pluto Sans</item>
+        <item name="android:textColor">#FFFCFCFC</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style	name="ArturoLin"
+        parent="@style/android:Widget.TextView">
+        <item name="android:fontFamily">Pluto Sans</item>
+        <item name="android:textColor">#FF383E39</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style	name="Jun2016"
+        parent="@style/android:Widget.TextView">
+        <item name="android:fontFamily">Pluto Sans</item>
+        <item name="android:textColor">#FF383E39</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
 </resources>

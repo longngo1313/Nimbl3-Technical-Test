@@ -57,6 +57,10 @@ public class Travelogue {
     @Expose
     private Integer pointsCount;
 
+    private User user;
+
+    private Places places;
+
     public String getStartDate() {
         return startDate;
     }
@@ -183,5 +187,45 @@ public class Travelogue {
 
     public void setPointsCount(Integer pointsCount) {
         this.pointsCount = pointsCount;
+    }
+
+    public Boolean getNew() {
+        return isNew;
+    }
+
+    public void setNew(Boolean aNew) {
+        isNew = aNew;
+    }
+
+    public Boolean getPublished() {
+        return isPublished;
+    }
+
+    public void setPublished(Boolean published) {
+        isPublished = published;
+    }
+
+    public Boolean getLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(Boolean liked) {
+        isLiked = liked;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Places getPlaces() {
+        return places;
+    }
+
+    public void setPlaces(Places places) {
+        this.places = places;
     }
 }

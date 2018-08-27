@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="270dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:background="@drawable/shape_card">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            >
+            
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/shape_avatar"
+                android:id="@+id/img_user_avatar"
+                />
+            <TextView
+                style="@style/ArturoLin"
+                android:layout_height="match_parent"
+                android:text="@string/user_name"
+                android:height="17dp"
+                android:lineSpacingMultiplier="1.21"
+                android:layout_width="65dp"
+                android:id="@+id/txt_user_name"/>
+
+            <TextView
+                style="@style/Jun2016"
+                android:text="@string/user_name"
+                android:gravity="center"
+                android:height="22dp"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:lineSpacingMultiplier="1.10"
+                android:width="22dp"
+                android:id="@+id/txt_date"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="357dp"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/bg_travelogue"
+                android:scaleType="fitXY"/>
+            
+            <TextView
+                style="ChillinAtBali"
+                android:text="@string/comment"
+                android:textColor="@color/color_comment"
+                android:background="@drawable/shape_comment"
+                android:gravity="center"
+                android:id="@+id/txt_travelogue_comment"
+                android:height="15dp"
+                android:layout_height="40dp"
+                android:layout_width="96dp"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="11dp"
+                android:lineSpacingMultiplier="1.25"
+                android:width="73dp"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_favorite_black_24dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_chat_bubble_black_24dp"/>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>
