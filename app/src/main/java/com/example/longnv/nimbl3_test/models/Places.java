@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Places {
 
+    private String id;
     @SerializedName("provider")
     @Expose
     private String provider;
@@ -118,5 +119,13 @@ public class Places {
 
     public void setCityguideSlug(String cityguideSlug) {
         this.cityguideSlug = cityguideSlug;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

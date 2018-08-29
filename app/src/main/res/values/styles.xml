@@ -29,4 +29,11 @@
         <item name="android:textSize">10sp</item>
     </style>
 
+    <style		name="MediaCount"
+        parent="@style/android:Widget.TextView">
+        <item name="android:fontFamily">Pluto Sans</item>
+        <item name="android:textColor">#FFFCFCFC</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
 </resources>

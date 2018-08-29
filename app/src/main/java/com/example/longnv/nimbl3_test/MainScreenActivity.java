@@ -1,5 +1,7 @@
 package com.example.longnv.nimbl3_test;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +35,7 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
 
     private RecyclerView mListTravelLogue;
 
+
     @Override
     protected int setViewLayout() {
         return R.layout.activity_main_screen;
@@ -42,7 +45,7 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
     protected void onSetupLayout() {
         mListTravelLogue = findViewById(R.id.ls_travelogue);
 
-        getPresenter().getAllData();
+        getPresenter().getAllData("community");
     }
 
     @NonNull
@@ -58,7 +61,7 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
         ArrayList<Travelogue> travelogueList = (ArrayList<Travelogue>) data;
 
         Log.d("15081991 ", "travelogueList   " + travelogueList.size());
-        Log.d("15081991 ", "travelogueList  getCoverImageUrl " + travelogueList.get(0).getCoverImageUrl());
+        Log.d("15081991 ", "travelogueList  getUsername " + travelogueList.get(0).getUser().getUsername());
         Log.d("15081991 ", "travelogueList  Main thread " + Thread.currentThread().getName());
 
         TravellogueListAdapter questionListAdapter = new TravellogueListAdapter(travelogueList, this);
@@ -70,8 +73,6 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
 
         mListTravelLogue.setLayoutManager(layoutManager);
 
-//        SnapHelper helper = new LinearSnapHelper();
-//        helper.attachToRecyclerView(mListTravelLogue);
         mListTravelLogue.setItemAnimator(new DefaultItemAnimator());
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mListTravelLogue.getContext(),
@@ -79,4 +80,6 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
         mListTravelLogue.addItemDecoration(dividerItemDecoration);
 
     }
+
+
 }

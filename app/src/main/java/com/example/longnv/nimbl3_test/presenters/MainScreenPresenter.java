@@ -1,6 +1,8 @@
 package com.example.longnv.nimbl3_test.presenters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 
 import com.example.longnv.nimbl3_test.base.BasePresenter;
 import com.example.longnv.nimbl3_test.models.Data;
@@ -12,8 +14,12 @@ import com.example.longnv.nimbl3_test.models.Places;
 import com.example.longnv.nimbl3_test.models.Travelogue;
 import com.example.longnv.nimbl3_test.models.User;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Response;
 
@@ -27,16 +33,19 @@ public class MainScreenPresenter extends BasePresenter<MainScreenModel> {
         super(context);
     }
 
+    private ArrayList<User> mUserList;
+    private ArrayList<Places> mPlaceList;
+
     @Override
     protected MainScreenModel setModel() {
         return new MainScreenModel(getContext());
     }
 
-    public void getAllData(){
+    public void getAllData(String scope){
         if(mModel == null){
             return;
         }
-        mModel.getAllData();
+        mModel.getAllData(scope);
 
     }
 
@@ -64,30 +73,41 @@ public class MainScreenPresenter extends BasePresenter<MainScreenModel> {
             return;
         }
 
-        ArrayList<User> users  = new ArrayList<>();
-        ArrayList<Places> places = new ArrayList<>();
+        mUserList = new ArrayList<>();
+        mPlaceList = new ArrayList<>();
 
         for(IncludedData includedData: includedDataList){
             if (includedData.getType().equals("places")){
-                places.add(convertIncludeDataToPlace(includedData));
+                mPlaceList.add(convertIncludeDataToPlace(includedData));
             }else if(includedData.getType().equals("users")){
-                users.add(convertIncludeDataToUser(includedData));
+                mUserList.add(convertIncludeDataToUser(includedData));
             }
         }
 
         ArrayList<Travelogue> travelogueArrayList = new ArrayList<>();
 
         for(Data singleData : dataList){
+            if(singleData == null || singleData.getRelationships() == null || singleData.getTravelogue() == null){
+                continue;
+            }
 
-            Travelogue travelogue = singleData.getTravelogue();
-            travelogue.setUser(users.get(0));
-            travelogue.setPlaces(places.get(0));
-
-            travelogueArrayList.add(travelogue);
+            travelogueArrayList.add(convertDataToTravelogue(singleData));
         }
 
         this.getmICallBackPresenter().onCallBackPresenter(key, travelogueArrayList);
 
+    }
+
+    private Travelogue convertDataToTravelogue(Data singleData){
+        Travelogue travelogue = singleData.getTravelogue();
+        travelogue.setStartDate(convertDate(travelogue.getStartDate()));
+
+        User user = findUserById(singleData.getRelationships().getUser().getId());
+        Log.d("15081991" , "findUserById(singleData.getRelationships().getUser().getId())" + findUserById(singleData.getRelationships().getUser().getId()).getName());
+        travelogue.setUser(findUserById(singleData.getRelationships().getUser().getId()));
+        travelogue.setPlaces(findPlaceById(singleData.getId()));
+
+        return travelogue;
     }
 
     private User convertIncludeDataToUser(IncludedData includedData){
@@ -102,7 +122,7 @@ public class MainScreenPresenter extends BasePresenter<MainScreenModel> {
         if (attributes == null){
             return user;
         }
-
+        user.setId(includedData.getId());
         user.setFirstName(attributes.getFirstName());
         user.setLastName(attributes.getLastName());
         user.setUsername(attributes.getUsername());
@@ -129,7 +149,7 @@ public class MainScreenPresenter extends BasePresenter<MainScreenModel> {
         if (attributes == null){
             return place;
         }
-
+        place.setId(includedData.getId());
         place.setProvider(attributes.getProvider());
         place.setProviderPlaceId(attributes.getProviderPlaceId());
         place.setCountry(attributes.getCountry());
@@ -143,6 +163,58 @@ public class MainScreenPresenter extends BasePresenter<MainScreenModel> {
         return place;
     }
 
+
+    private String convertDate(String rawDate){
+
+
+        if(rawDate.isEmpty() || rawDate.length() < 10){
+            return "";
+        }
+
+        SimpleDateFormat monthDate = new SimpleDateFormat("MMM \n yyyy", Locale.ENGLISH);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        String actualDate = rawDate.substring(0, 10);
+        Date date = null;
+
+        try {
+            date = sdf.parse(actualDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return monthDate.format(date).toUpperCase();
+    }
+
+    private User findUserById(String id){
+
+        if(mUserList == null || mUserList.isEmpty()){
+            return null;
+        }
+        for(User checkUser : mUserList){
+            if(checkUser.getId().equals(id)){
+                return checkUser;
+            }
+        }
+
+        return null;
+    }
+
+    private Places findPlaceById(String id){
+        Places places = new Places();
+
+        if(mPlaceList == null || mPlaceList.isEmpty()){
+            return places;
+        }
+
+        for(Places checkPlace: mPlaceList){
+            if(checkPlace.getId().equals(id)){
+                return places;
+            }
+        }
+
+        return places;
+    }
 
 
 }

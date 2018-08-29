@@ -12,25 +12,25 @@ public class Relationships {
 
     @SerializedName("user")
     @Expose
-    private IncludedData user;
+    private RelationshipsData user;
     @SerializedName("destination")
     @Expose
-    private IncludedData destination;
+    private RelationshipsData destination;
 
     public IncludedData getUser() {
-        return user;
+        return user.getData();
     }
 
     public void setUser(IncludedData user) {
-        this.user = user;
+        this.user.setData(user);
     }
 
     public IncludedData getDestination() {
-        return destination;
+        return destination.getData();
     }
 
     public void setDestination(IncludedData destination) {
-        this.destination = destination;
+        this.destination.setData(destination);
     }
 
 }

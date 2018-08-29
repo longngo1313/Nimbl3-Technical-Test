@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class User {
 
+    private String id;
     @SerializedName("first_name")
     @Expose
     private String firstName;
@@ -119,5 +120,21 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Boolean getFriend() {
+        return isFriend;
+    }
+
+    public void setFriend(Boolean friend) {
+        isFriend = friend;
     }
 }

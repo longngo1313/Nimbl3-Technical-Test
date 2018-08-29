@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.longnv.nimbl3_test.R;
 import com.example.longnv.nimbl3_test.models.Travelogue;
@@ -61,10 +64,22 @@ public class TravellogueListAdapter extends RecyclerView.Adapter<TravellogueList
             return;
         }
 
-        Glide.with(mActivity).load(travelogue.getCoverImageUrl()).into(holder.mBackground);
-        Glide.with(mActivity).load(travelogue.getUser().getAvatar()).apply(RequestOptions.circleCropTransform()).into(holder.mAvatar);
+        RequestOptions avatarRequest = new RequestOptions()
+                .circleCrop()
+                .autoClone()
+                .placeholder(R.drawable.ic_person_black_24dp);
+
+        RequestOptions bgRequest = new RequestOptions()
+                .placeholder(R.drawable.progress);
+
+        Glide.with(mActivity).load(travelogue.getCoverImageUrl())
+                .apply(bgRequest)
+                .into(holder.mBackground);
+        Glide.with(mActivity).load(travelogue.getUser().getAvatar())
+                .apply(avatarRequest)
+                .into(holder.mAvatar);
         holder.mAvatarName.setText(travelogue.getUser().getName());
-        holder.mDate.setText("JUN 2016");
+        holder.mDate.setText(travelogue.getStartDate());
         holder.mComment.setText(travelogue.getSlug());
 
     }

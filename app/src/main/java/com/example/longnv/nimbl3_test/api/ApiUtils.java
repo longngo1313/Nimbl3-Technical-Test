@@ -5,6 +5,7 @@ package com.example.longnv.nimbl3_test.api;
  * nguyenvulong2002@gmail.com
  */
 public class ApiUtils {
+
     public static final String BASE_URL = "https://staging.travelbook.com/api/v1/";
 
     public static ApiService getSOService() {
