@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="color_comment">#FFFCFCFC</color>
     <color name="white_text">#ffffff</color>
+    <color name="black">#000000</color>
 </resources>

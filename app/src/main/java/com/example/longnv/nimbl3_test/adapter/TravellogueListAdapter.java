@@ -80,8 +80,14 @@ public class TravellogueListAdapter extends RecyclerView.Adapter<TravellogueList
                 .into(holder.mAvatar);
         holder.mAvatarName.setText(travelogue.getUser().getName());
         holder.mDate.setText(travelogue.getStartDate());
-        holder.mComment.setText(travelogue.getSlug());
+        holder.mComment.setText(travelogue.getPlaces().getName());
 
+
+        if(1 < travelogue.getMediaCount()){
+            holder.mTxtImageCount.setVisibility(View.VISIBLE);
+            holder.mImgMedia.setVisibility(View.VISIBLE);
+            holder.mTxtImageCount.setText(String.valueOf(travelogue.getMediaCount()));
+        }
     }
 
     @Override
@@ -97,6 +103,10 @@ public class TravellogueListAdapter extends RecyclerView.Adapter<TravellogueList
 
         private ImageView mBackground;
 
+        private TextView mTxtImageCount;
+
+        private ImageView mImgMedia;
+
 
         public CustomViewHolder(View view) {
             super(view);
@@ -105,6 +115,8 @@ public class TravellogueListAdapter extends RecyclerView.Adapter<TravellogueList
             this.mDate = view.findViewById(R.id.txt_date);
             this.mComment = view.findViewById(R.id.txt_travelogue_comment);
             this.mBackground = view.findViewById(R.id.bg_travelogue);
+            this.mImgMedia =  view.findViewById(R.id.img_media);
+            this.mTxtImageCount =  view.findViewById(R.id.txt_media_count);
         }
     }
 

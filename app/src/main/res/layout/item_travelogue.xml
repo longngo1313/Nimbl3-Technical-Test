@@ -117,6 +117,7 @@
                 android:layout_width="15dp"
                 android:layout_height="12dp"
                 android:scaleType="fitXY"
+                android:visibility="invisible"
                 android:src="@drawable/icon_photos3x"
                 />
 
@@ -126,6 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="13"
+                android:visibility="invisible"
                 android:textColor="#FFFCFCFC" />
 
         </LinearLayout>

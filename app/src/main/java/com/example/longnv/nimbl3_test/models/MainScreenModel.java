@@ -21,11 +21,19 @@ public class MainScreenModel extends BaseModel {
     private ApiService mService;
 
     private static String sToken = "2d45d05ab379427f9d00387e3a43a80360174530aacff2a7dbc5a1de4d62d642";
+    //private static String sToken = "5f0d6176a9e9434d5d2b4e839a4d77445c9250d452ab466073d508d9f0a5a593";
 
     private static String sScope = "community";
 
     public static final String TOKEN = "TOKEN";
     public static final String PREFERENCE_KEY = "PREFERENCE_KEY";
+
+    public static final String DATA_SUCCES_STATUS = "DataResponse Success";
+    public static final String TOKEN_SUCCES_STATUS = "Token Success";
+    public static final String DATA_ERROR_STATUS = "DataResponse Error";
+    public static final String TOKEN_ERROR_STATUS = "Token Error";
+
+    public static final String CONECTION_ERROR_STATUS = "DataResponse";
 
     public MainScreenModel(Context context) {
         super(context);
@@ -48,18 +56,16 @@ public class MainScreenModel extends BaseModel {
             @Override
             public void onResponse(Call<DataResponse> call, Response<DataResponse> response) {
                 if(response.isSuccessful()) {
-                    Log.d("15081991" , "statusCode succes");
-                    getmICallBackPresenter().onCallBackModel("DataResponse", response.body());
+                    getmICallBackPresenter().onCallBackModel(DATA_SUCCES_STATUS, response.body());
                 }else {
                     int statusCode  = response.code();
-                    Log.d("15081991" , "statusCode not succes" + response.raw().request().url());
-                    // handle request errors depending on status code
+                    getmICallBackPresenter().onCallBackModel(DATA_ERROR_STATUS, statusCode);
                 }
             }
 
             @Override
             public void onFailure(Call<DataResponse> call, Throwable t) {
-                Log.d("15081991", "error loading from API");
+                getmICallBackPresenter().onCallBackModel(CONECTION_ERROR_STATUS, t);
             }
         });
 
@@ -67,11 +73,42 @@ public class MainScreenModel extends BaseModel {
 
     }
 
+    public void getTokenFromServer(){
+        mService = ApiUtils.getSOService();
+
+        mService.getTokenAPI().enqueue(new Callback<Token>() {
+            @Override
+            public void onResponse(Call<Token> call, Response<Token> response) {
+                if(response.isSuccessful()) {
+                    setTokenToDB(response.body().getAccessToken());
+                    Log.d("15081991 ---","New Token Getted" + response.body().getAccessToken());
+                    getAllData("community");
+                }else {
+                    int statusCode  = response.code();
+                    getmICallBackPresenter().onCallBackModel(TOKEN_ERROR_STATUS, statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Token> call, Throwable t) {
+                getmICallBackPresenter().onCallBackModel(CONECTION_ERROR_STATUS, t);
+            }
+        });
+    }
+
 
     private String getTokenFromDB(){
         Context context = getContext();
         SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE);
         String token = sharedPref.getString(TOKEN, null);
+        return token;
+    }
+
+    private String setTokenToDB(String token){
+        SharedPreferences sharedPref = getContext().getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(TOKEN, token);
+        editor.apply();
         return token;
     }
 }

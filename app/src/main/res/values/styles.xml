@@ -36,4 +36,11 @@
         <item name="android:textSize">10sp</item>
     </style>
 
+    <style		name="Travelbooks"
+        parent="@style/android:Widget.TextView">
+        <item name="android:fontFamily">Pluto Sans</item>
+        <item name="android:textColor">#FF383E39</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
 </resources>

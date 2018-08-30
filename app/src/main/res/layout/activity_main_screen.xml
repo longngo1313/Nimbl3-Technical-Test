@@ -7,10 +7,73 @@
     android:orientation="vertical"
     tools:context=".MainScreenActivity">
 
-    <android.support.v7.widget.RecyclerView
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:orientation="horizontal"
+        android:id="@+id/layout_travel_book">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
+            style="@style/Travelbooks"
+            android:text="Travelbooks"
+            android:id="@+id/txt_travel"
+            android:lineSpacingMultiplier="1.23"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_dropdown"
+            app:layout_constraintStart_toEndOf="@id/txt_travel"
+            android:id="@+id/btn_dropdown"
+            app:layout_constraintTop_toTopOf="@id/txt_travel"/>
+
+    </LinearLayout>
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/expandableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:ael_expanded="false"
+        app:ael_duration="500"
+        app:ael_interpolator="bounce"
+        app:ael_orientation="vertical"
+        android:visibility="invisible"
+        android:background="@color/colorAccent">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="sample" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text"
+            android:text="sample2" />
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/layout_swipe_refresh"
         android:layout_width="355dp"
-        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/ls_travelogue"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ls_travelogue"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+
 
 </LinearLayout>

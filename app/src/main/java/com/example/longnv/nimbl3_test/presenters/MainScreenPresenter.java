@@ -49,9 +49,40 @@ public class MainScreenPresenter extends BasePresenter<MainScreenModel> {
 
     }
 
+    public void getAccessToken(){
+        if(mModel == null){
+            return;
+        }
+        mModel.getTokenFromServer();
+    }
+
     @Override
     public void onCallBackModel(String key, Object data) {
 
+        if(key.equals(MainScreenModel.DATA_SUCCES_STATUS)){
+            showListTravelogue(key, data);
+        }else if(key.equals(MainScreenModel.DATA_ERROR_STATUS)){
+            showPopuptoGetNewToken(key, data);
+        }else if(key.equals(MainScreenModel.TOKEN_ERROR_STATUS)){
+            showErrorPopupToken(key, data);
+        }else if(key.equals(MainScreenModel.CONECTION_ERROR_STATUS)){
+            showFailedPopup(key,data);
+        }
+    }
+
+    private void showFailedPopup(String key, Object data){
+        this.getmICallBackPresenter().onCallBackPresenter(key, data);
+    }
+
+    private void showErrorPopupToken(String key, Object data){
+        this.getmICallBackPresenter().onCallBackPresenter(key, data);
+    }
+
+    private void showPopuptoGetNewToken(String key, Object data){
+        this.getmICallBackPresenter().onCallBackPresenter(key, data);
+    }
+
+    private void showListTravelogue(String key, Object data){
         if(data == null){
             return;
         }
@@ -95,17 +126,17 @@ public class MainScreenPresenter extends BasePresenter<MainScreenModel> {
         }
 
         this.getmICallBackPresenter().onCallBackPresenter(key, travelogueArrayList);
-
     }
+
+
+
 
     private Travelogue convertDataToTravelogue(Data singleData){
         Travelogue travelogue = singleData.getTravelogue();
         travelogue.setStartDate(convertDate(travelogue.getStartDate()));
 
-        User user = findUserById(singleData.getRelationships().getUser().getId());
-        Log.d("15081991" , "findUserById(singleData.getRelationships().getUser().getId())" + findUserById(singleData.getRelationships().getUser().getId()).getName());
         travelogue.setUser(findUserById(singleData.getRelationships().getUser().getId()));
-        travelogue.setPlaces(findPlaceById(singleData.getId()));
+        travelogue.setPlaces(findPlaceById(singleData.getRelationships().getDestination().getId()));
 
         return travelogue;
     }
@@ -209,7 +240,7 @@ public class MainScreenPresenter extends BasePresenter<MainScreenModel> {
 
         for(Places checkPlace: mPlaceList){
             if(checkPlace.getId().equals(id)){
-                return places;
+                return checkPlace;
             }
         }
 
