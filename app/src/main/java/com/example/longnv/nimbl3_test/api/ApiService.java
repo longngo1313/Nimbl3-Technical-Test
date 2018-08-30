@@ -5,6 +5,7 @@ import com.example.longnv.nimbl3_test.models.Token;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -21,7 +22,7 @@ public interface ApiService {
     @GET("feeds")
     Call<DataResponse> getAnswersWithFilter(@Query("access_token") String token,@Query("page") String page, @Query("filter[scope]") String scope);
 
-    @GET("token?client_id=3bb0640f3232379a9e07c0c44f9ef5e764eefb9ba0e1d31168a90ecebe2bc67d&client_secret=073177b5f4f3489d46921c62629a42aa7b2bbdf57fc578bf2c61917957d037cc&grant_type=password&email=olivier@nimbl3.com&password=12345678")
+    @POST("token?client_id=3bb0640f3232379a9e07c0c44f9ef5e764eefb9ba0e1d31168a90ecebe2bc67d&client_secret=073177b5f4f3489d46921c62629a42aa7b2bbdf57fc578bf2c61917957d037cc&grant_type=password&email=olivier@nimbl3.com&password=12345678")
     Call<Token> getTokenAPI();
 
 }

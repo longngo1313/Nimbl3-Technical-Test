@@ -151,6 +151,8 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
             showRequestTokenPopup();
         }else if(key.equals(MainScreenModel.TOKEN_ERROR_STATUS)){
             showErrorPopup("Getting Token Error", String.valueOf(data));
+        }else if(key.equals(MainScreenModel.TOKEN_SUCCES_STATUS)){
+            loadData();
         }else if(key.equals(MainScreenModel.CONECTION_ERROR_STATUS)){
             showErrorPopup("Get Data Error", String.valueOf(data));
         }
@@ -158,7 +160,6 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
     }
 
     private void loadData(){
-        Log.d("15081991", "LOAD DATA");
         mRefreshLayout.setRefreshing(true);
 
         getPresenter().getAllData(sScope);

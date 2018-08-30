@@ -20,8 +20,8 @@ public class MainScreenModel extends BaseModel {
 
     private ApiService mService;
 
-    private static String sToken = "2d45d05ab379427f9d00387e3a43a80360174530aacff2a7dbc5a1de4d62d642";
-    //private static String sToken = "5f0d6176a9e9434d5d2b4e839a4d77445c9250d452ab466073d508d9f0a5a593";
+    //private static String sToken = "2d45d05ab379427f9d00387e3a43a80360174530aacff2a7dbc5a1de4d62d642";
+    private static String sToken = "5f0d6176a9e9434d5d2b4e839a4d77445c9250d452ab466073d508d9f0a5a593";
 
     private static String sScope = "community";
 
@@ -65,7 +65,7 @@ public class MainScreenModel extends BaseModel {
 
             @Override
             public void onFailure(Call<DataResponse> call, Throwable t) {
-                getmICallBackPresenter().onCallBackModel(CONECTION_ERROR_STATUS, t);
+                getmICallBackPresenter().onCallBackModel(CONECTION_ERROR_STATUS, t.toString());
             }
         });
 
@@ -81,17 +81,18 @@ public class MainScreenModel extends BaseModel {
             public void onResponse(Call<Token> call, Response<Token> response) {
                 if(response.isSuccessful()) {
                     setTokenToDB(response.body().getAccessToken());
-                    Log.d("15081991 ---","New Token Getted" + response.body().getAccessToken());
-                    getAllData("community");
+                    getmICallBackPresenter().onCallBackModel(TOKEN_SUCCES_STATUS, response.body().getAccessToken());
                 }else {
                     int statusCode  = response.code();
+                    Log.d("15081991 ---","onResponse" + response.body().getAccessToken());
                     getmICallBackPresenter().onCallBackModel(TOKEN_ERROR_STATUS, statusCode);
                 }
             }
 
             @Override
             public void onFailure(Call<Token> call, Throwable t) {
-                getmICallBackPresenter().onCallBackModel(CONECTION_ERROR_STATUS, t);
+                Log.d("15081991 ---","onFailure" + t.toString());
+                getmICallBackPresenter().onCallBackModel(CONECTION_ERROR_STATUS, t.toString());
             }
         });
     }

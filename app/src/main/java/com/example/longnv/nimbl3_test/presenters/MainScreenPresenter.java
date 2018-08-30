@@ -61,25 +61,9 @@ public class MainScreenPresenter extends BasePresenter<MainScreenModel> {
 
         if(key.equals(MainScreenModel.DATA_SUCCES_STATUS)){
             showListTravelogue(key, data);
-        }else if(key.equals(MainScreenModel.DATA_ERROR_STATUS)){
-            showPopuptoGetNewToken(key, data);
-        }else if(key.equals(MainScreenModel.TOKEN_ERROR_STATUS)){
-            showErrorPopupToken(key, data);
-        }else if(key.equals(MainScreenModel.CONECTION_ERROR_STATUS)){
-            showFailedPopup(key,data);
+        }else {
+            this.getmICallBackPresenter().onCallBackPresenter(key, data);
         }
-    }
-
-    private void showFailedPopup(String key, Object data){
-        this.getmICallBackPresenter().onCallBackPresenter(key, data);
-    }
-
-    private void showErrorPopupToken(String key, Object data){
-        this.getmICallBackPresenter().onCallBackPresenter(key, data);
-    }
-
-    private void showPopuptoGetNewToken(String key, Object data){
-        this.getmICallBackPresenter().onCallBackPresenter(key, data);
     }
 
     private void showListTravelogue(String key, Object data){
