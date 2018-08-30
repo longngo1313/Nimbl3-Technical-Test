@@ -6,4 +6,7 @@
     <color name="color_comment">#FFFCFCFC</color>
     <color name="white_text">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="btn_pressed_color">#FFEC5169</color>
+    <color name="btn_normal_color">#FF0A0A0A</color>
+    <color name="tranparent">#00000000</color>
 </resources>

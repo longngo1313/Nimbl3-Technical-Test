@@ -3,4 +3,8 @@
     <string name="user_name">Arturo Lin</string>
     <string name="comment">Chillin At Bali</string>
     <string name="date">Jun 2016</string>
+    <string name="travelbooks">Travelbooks</string>
+    <string name="sort_by">Sort By</string>
+    <string name="friends">Friends</string>
+    <string name="community">Community</string>
 </resources>

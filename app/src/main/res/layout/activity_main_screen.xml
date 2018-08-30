@@ -6,19 +6,49 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainScreenActivity">
+    
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="17dp"
+        >
+
+        <ImageButton
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:src="@drawable/icon_search_black2x"
+            android:scaleType="fitXY"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="24dp"
+            android:background="@color/tranparent"/>
+
+        <ImageButton
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:src="@drawable/icon_settings2x"
+            android:background="@color/tranparent"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="25dp"/>
+
+    </android.support.constraint.ConstraintLayout>
 
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="27dp"
+        android:layout_marginLeft="28dp"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:id="@+id/layout_travel_book">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="27dp"
             style="@style/Travelbooks"
-            android:text="Travelbooks"
+            android:text="@string/travelbooks"
+            android:textStyle="bold"
             android:id="@+id/txt_travel"
             android:lineSpacingMultiplier="1.23"
             />
@@ -26,9 +56,10 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="center"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/icon_dropdown"
+            android:src="@drawable/icon_dropdown2x"
+            android:background="@color/tranparent"
+            android:scaleType="center"
             app:layout_constraintStart_toEndOf="@id/txt_travel"
             android:id="@+id/btn_dropdown"
             app:layout_constraintTop_toTopOf="@id/txt_travel"/>
@@ -43,19 +74,50 @@
         app:ael_duration="500"
         app:ael_interpolator="bounce"
         app:ael_orientation="vertical"
-        android:visibility="invisible"
-        android:background="@color/colorAccent">
+        android:gravity="center">
 
         <TextView
-            android:id="@+id/text"
-            android:layout_width="match_parent"
+            android:height="17dp"
+            style="@style/SortBy"
             android:layout_height="wrap_content"
-            android:text="sample" />
-        <TextView
+            android:lineSpacingMultiplier="1.21"
+            android:text="@string/sort_by"
+            android:id="@+id/txt_sort"
+            android:textSize="14sp"
+            android:layout_marginLeft="27dp"
+            android:layout_marginTop="28dp"
+            android:layout_width="47dp" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/text"
-            android:text="sample2" />
+            android:layout_height="76dp"
+            android:gravity="center"
+            android:layout_below="@id/txt_sort"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="76dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/btn_friend"
+                android:text="@string/friends"
+                android:textColor="@drawable/text_color"
+                android:background="@drawable/shape_button_down"/>
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="76dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/btn_community"
+                android:text="@string/community"
+                android:textColor="@drawable/text_color"
+                android:background="@drawable/shape_button_down"/>
+
+
+        </LinearLayout>
+
+
     </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
 

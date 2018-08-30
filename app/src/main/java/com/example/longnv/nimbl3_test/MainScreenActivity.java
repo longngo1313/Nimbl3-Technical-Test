@@ -3,7 +3,9 @@ package com.example.longnv.nimbl3_test;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -49,6 +52,13 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
 
     private ImageButton mBtnFilter;
 
+    private Button mBtnFriend, mBtnComunity;
+
+    public static String sScope = "community";
+
+    public static final String COMUNITY_SCOPE = "community";
+    public static final String FRIENDS_SCOPE = "friends";
+
     @Override
     protected int setViewLayout() {
         return R.layout.activity_main_screen;
@@ -60,6 +70,8 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
         mRefreshLayout = findViewById(R.id.layout_swipe_refresh);
         mExpandableLayout = findViewById(R.id.expandableLayout);
         mBtnFilter = findViewById(R.id.btn_dropdown);
+        mBtnComunity = findViewById(R.id.btn_community);
+        mBtnFriend = findViewById(R.id.btn_friend);
 
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 android.R.color.holo_green_dark,
@@ -75,14 +87,51 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
             });
         }
 
+        mExpandableLayout.collapse();
+
+        mBtnComunity.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.btn_pressed_color));
+
+        mBtnComunity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(mRefreshLayout.isRefreshing()){
+                    return;
+                }
+
+                mBtnComunity.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.btn_pressed_color));
+                mBtnFriend.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.btn_normal_color));
+                switchSortMethod(COMUNITY_SCOPE);
+            }
+        });
+
+        mBtnFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(mRefreshLayout.isRefreshing()){
+                    return;
+                }
+
+                mBtnFriend.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.btn_pressed_color));
+                mBtnComunity.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.btn_normal_color));
+                switchSortMethod(FRIENDS_SCOPE);
+            }
+        });
+
         mBtnFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("15081991 ", "CLICK ------- ");
-                mExpandableLayout.setVisibility(View.VISIBLE);
+                if(mExpandableLayout.isExpanded()){
+                    mBtnFilter.setImageResource(R.drawable.icon_dropdown2x);
+                }else {
+                    mBtnFilter.setImageResource(R.drawable.icon_dropup2x);
+                }
+
                 mExpandableLayout.toggle();
             }
         });
+
         loadData();
     }
 
@@ -112,7 +161,7 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
         Log.d("15081991", "LOAD DATA");
         mRefreshLayout.setRefreshing(true);
 
-        getPresenter().getAllData("community");
+        getPresenter().getAllData(sScope);
     }
 
     private void showErrorPopup(String title, String message){
@@ -168,6 +217,18 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
                 layoutManager.getOrientation());
         mListTravelLogue.addItemDecoration(dividerItemDecoration);
 
+    }
+
+    private void switchSortMethod(String changeScope){
+
+        if(changeScope == null && !changeScope.equals(COMUNITY_SCOPE) && !changeScope.equals(FRIENDS_SCOPE)){
+            return;
+        }
+
+        if (!changeScope.equals(sScope) ){
+            sScope = changeScope;
+            loadData();
+        }
     }
 
 
