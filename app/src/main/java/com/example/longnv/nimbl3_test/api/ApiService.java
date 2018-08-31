@@ -18,7 +18,6 @@ public interface ApiService {
     @GET("feeds?access_token=2d45d05ab379427f9d00387e3a43a80360174530aacff2a7dbc5a1de4d62d642&page=1&filter[scope]=community")
     Call<DataResponse> getAnswers();
 
-
     @GET("feeds")
     Call<DataResponse> getAnswersWithFilter(@Query("access_token") String token,@Query("page") String page, @Query("filter[scope]") String scope);
 

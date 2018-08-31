@@ -20,8 +20,8 @@ public class MainScreenModel extends BaseModel {
 
     private ApiService mService;
 
-    //private static String sToken = "2d45d05ab379427f9d00387e3a43a80360174530aacff2a7dbc5a1de4d62d642";
-    private static String sToken = "5f0d6176a9e9434d5d2b4e839a4d77445c9250d452ab466073d508d9f0a5a593";
+    private static String sToken = "2d45d05ab379427f9d00387e3a43a80360174530aacff2a7dbc5a1de4d62d642";
+    //private static String sToken = "5f0d6176a9e9434d5d2b4e839a4d77445c9250d452ab466073d508d9f0a5a593";
 
     private static String sScope = "community";
 
@@ -40,7 +40,7 @@ public class MainScreenModel extends BaseModel {
     }
 
     public void getAllData(String scope){
-        mService = ApiUtils.getSOService();
+        mService = ApiUtils.getAPIService();
 
         String token = getTokenFromDB();
 
@@ -74,7 +74,7 @@ public class MainScreenModel extends BaseModel {
     }
 
     public void getTokenFromServer(){
-        mService = ApiUtils.getSOService();
+        mService = ApiUtils.getAPIService();
 
         mService.getTokenAPI().enqueue(new Callback<Token>() {
             @Override

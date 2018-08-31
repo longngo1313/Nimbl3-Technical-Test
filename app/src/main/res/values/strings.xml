@@ -7,4 +7,8 @@
     <string name="sort_by">Sort By</string>
     <string name="friends">Friends</string>
     <string name="community">Community</string>
+    <string name="failed_title">Failed Loading</string>
+    <string name="get_token">Trying to get new token?</string>
+    <string name="token_error_title">Getting Token Error</string>
+    <string name="data_error_title">Get Data Error</string>
 </resources>

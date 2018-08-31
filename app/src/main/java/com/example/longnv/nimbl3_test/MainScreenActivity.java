@@ -1,46 +1,28 @@
 package com.example.longnv.nimbl3_test;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.example.longnv.nimbl3_test.adapter.TravellogueListAdapter;
-import com.example.longnv.nimbl3_test.api.ApiService;
-import com.example.longnv.nimbl3_test.api.ApiUtils;
+import com.example.longnv.nimbl3_test.adapter.TravelogueListAdapter;
 import com.example.longnv.nimbl3_test.base.BaseActivity;
-import com.example.longnv.nimbl3_test.models.Data;
-import com.example.longnv.nimbl3_test.models.DataResponse;
-import com.example.longnv.nimbl3_test.models.IncludedData;
 import com.example.longnv.nimbl3_test.models.MainScreenModel;
-import com.example.longnv.nimbl3_test.models.Places;
 import com.example.longnv.nimbl3_test.models.Travelogue;
 import com.example.longnv.nimbl3_test.presenters.MainScreenPresenter;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
 
@@ -50,11 +32,14 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
 
     private ExpandableRelativeLayout mExpandableLayout;
 
+    public TextView mTxtTravel;
+
     private ImageButton mBtnFilter;
 
     private Button mBtnFriend, mBtnComunity;
 
     public static String sScope = "community";
+
 
     public static final String COMUNITY_SCOPE = "community";
     public static final String FRIENDS_SCOPE = "friends";
@@ -72,6 +57,7 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
         mBtnFilter = findViewById(R.id.btn_dropdown);
         mBtnComunity = findViewById(R.id.btn_community);
         mBtnFriend = findViewById(R.id.btn_friend);
+        mTxtTravel = findViewById(R.id.txt_travel);
 
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 android.R.color.holo_green_dark,
@@ -122,18 +108,35 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
         mBtnFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mExpandableLayout.isExpanded()){
-                    mBtnFilter.setImageResource(R.drawable.icon_dropdown2x);
-                }else {
-                    mBtnFilter.setImageResource(R.drawable.icon_dropup2x);
-                }
+                toggleExpandableLayout();
+            }
+        });
 
-                mExpandableLayout.toggle();
+        mTxtTravel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleExpandableLayout();
             }
         });
 
         loadData();
     }
+
+    private void toggleExpandableLayout(){
+
+        if(mExpandableLayout == null){
+            return;
+        }
+
+        if(mExpandableLayout.isExpanded()){
+            mBtnFilter.setImageResource(R.drawable.icon_dropdown2x);
+        }else {
+            mBtnFilter.setImageResource(R.drawable.icon_dropup2x);
+        }
+
+        mExpandableLayout.toggle();
+    }
+
 
     @NonNull
     @Override
@@ -150,11 +153,11 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
         }else if(key.equals(MainScreenModel.DATA_ERROR_STATUS)) {
             showRequestTokenPopup();
         }else if(key.equals(MainScreenModel.TOKEN_ERROR_STATUS)){
-            showErrorPopup("Getting Token Error", String.valueOf(data));
+            showErrorPopup(getString(R.string.token_error_title), String.valueOf(data));
         }else if(key.equals(MainScreenModel.TOKEN_SUCCES_STATUS)){
             loadData();
         }else if(key.equals(MainScreenModel.CONECTION_ERROR_STATUS)){
-            showErrorPopup("Get Data Error", String.valueOf(data));
+            showErrorPopup(getString(R.string.data_error_title), String.valueOf(data));
         }
 
     }
@@ -162,6 +165,7 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
     private void loadData(){
         mRefreshLayout.setRefreshing(true);
 
+        mExpandableLayout.collapse();
         getPresenter().getAllData(sScope);
     }
 
@@ -184,11 +188,10 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
 
-        builder.setTitle("Failed Loading")
-                .setMessage("Trying to get new token?")
+        builder.setTitle(R.string.failed_title)
+                .setMessage(R.string.get_token)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d("15081991", "Get new tokken");
                         getPresenter().getAccessToken();
                     }
                 })
@@ -203,7 +206,7 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
 
     private void showListData(ArrayList<Travelogue> travelogueList ){
 
-        TravellogueListAdapter questionListAdapter = new TravellogueListAdapter(travelogueList, this);
+        TravelogueListAdapter questionListAdapter = new TravelogueListAdapter(travelogueList, this);
 
         mListTravelLogue.setAdapter(questionListAdapter);
 
@@ -222,7 +225,11 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
 
     private void switchSortMethod(String changeScope){
 
-        if(changeScope == null && !changeScope.equals(COMUNITY_SCOPE) && !changeScope.equals(FRIENDS_SCOPE)){
+        if(changeScope == null){
+            return;
+        }
+
+        if(!changeScope.equals(COMUNITY_SCOPE) && !changeScope.equals(FRIENDS_SCOPE)){
             return;
         }
 
