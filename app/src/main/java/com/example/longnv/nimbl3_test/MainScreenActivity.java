@@ -137,6 +137,15 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
         mExpandableLayout.toggle();
     }
 
+    private void collapseExpandableLayout(){
+
+        if(mExpandableLayout == null){
+            return;
+        }
+        mBtnFilter.setImageResource(R.drawable.icon_dropdown2x);
+        mExpandableLayout.collapse();
+    }
+
 
     @NonNull
     @Override
@@ -164,8 +173,7 @@ public class MainScreenActivity extends BaseActivity<MainScreenPresenter> {
 
     private void loadData(){
         mRefreshLayout.setRefreshing(true);
-
-        mExpandableLayout.collapse();
+        collapseExpandableLayout();
         getPresenter().getAllData(sScope);
     }
 
