@@ -84,7 +84,6 @@ public class MainScreenModel extends BaseModel {
                     getmICallBackPresenter().onCallBackModel(TOKEN_SUCCES_STATUS, response.body().getAccessToken());
                 }else {
                     int statusCode  = response.code();
-                    Log.d("15081991 ---","onResponse" + response.body().getAccessToken());
                     getmICallBackPresenter().onCallBackModel(TOKEN_ERROR_STATUS, statusCode);
                 }
             }
